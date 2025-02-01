@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>code description.markdown</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="code-description">Code description</h1>
+<p>The code defines a class in python  <code>PolyaUrnModel</code> that implements a simulation of a Polya urn model. <br /></p>
+<p>A <strong>Polya urn model</strong> is a stochastic process in which an urn contains balls of different types, and at each step a ball is drawn randomly from the urn, and the urn is updated by adding a specified number of balls of each type according to its entry in the <code>reinforcement matrix</code>.
+The code also allows for an extended version of the model  to allow for the addition of new types of balls to the urn over time.</p>
+<h3 id="description-of-the-class-polyaurnmodel">Description of the class <code>PolyaUrnModel</code></h3>
+<h4 id="input-parameters"><strong>Input parameters:</strong></h4>
+<pre><code> - `n` : is the number of types of balls in the urn initally .
+ - `m`: is the failure parameter, which specifies the maximum number of periods that a ball of a new type can remain in the urn without being drawn before it is removed.
+- `init_balls`: is a list that specifies the  number of balls of each type in the urn at the start of the simulation.
+- `reinforcement_matrix` :is a matrix that specifies the number of balls A_{i,j}  of type j  added to the urn when a ball of  type i is drawn.
+- `iterations` : the number of iterations  simulated.
+- `num_paths` : the number of random paths that are simulated.
+- `reinforcement_type': (optional) dictionary that specifies the types of new balls that can be added to the urn over time.
+</code></pre>
+<h4 id="functions-and-methods"><strong>Functions and methods:</strong></h4>
+<pre><code>- 'simulate':  method of the PolyaUrnModel class.Runs one Polya urn simulation for a fixed number of iterations. 
+At each iteration, a ball is drawn from the urn with probability proportional to the number of balls of each type in the urn. 
+The urn is then updated by adding a specified number of balls of each type depending on the type of the ball that was drawn. If the 'reinforcement_type' parameter is not None, new types of balls can also be added to the urn over time and excluded if surpasses the failure parameter 'm'. The method returs the final dictionary, the list of market share for each type and a dictionary specifying the number of draws of each new type to track for the failure parameter 'm'.
+
+- multi_path : runs the simulation across multiple random paths. The output is a matrix of market shares where the rows correspond to iterations and the columns correspond to the types of balls in the urn.
+
+- draw_piechart:  takes the parameters of the Polya urn model, calculates the mean market share of each type in the 'polya_urn object' across all the paths and displays the result in a pie chart.
+
+- hist_dist: takes in the same parameters as draw_piechart and plots a histogram of the distribution of shares for each type across all the paths.
+
+- plot_power: simulates the Polya urn model object ,and sorts the resulting dictionary by the shares of each type. It then plots the weights of each type as a function of their rank.
+</code></pre>
+<h4 id="results"><strong>Results:</strong></h4>
+<p>I now simulate the <code>Polya urn model</code> described above using the code described above.</p>
+<p>Under different scenarios of initialisations.</p>
+<h4 id="case-1-deterministic-regardless-of-initial-distribution--diagonal--off-diagonal--0"><strong>Case 1 :Deterministic regardless of initial distribution</strong> :  Diagonal &gt; off-diagonal &gt; 0</h4>
+<ul>
+<li><strong>Sub-case 1.1:</strong> Equal initial allocation:</li>
+</ul>
+<p>All urns start with an equal number of balls, and the reinforcement matrix as shown int the figure below:</p>
+<p><img src="Screen Shot 2023-03-09 at 10.31.05 PM.png" alt="Alt text"></p>
+<p><img src="1.12.png" alt="Alt text"></p>
+<p>The eigenvector approaches to the limiting distribution as in matches as in <code>Theorem 2.3 </code></p>
+<p>eigenvect=[0.48571166, 0.2224198, 0.37186854]</p>
+<ul>
+<li><strong>Sub-case 1.2:</strong> different initial allocation [0,1,2]</li>
+</ul>
+<p><code>init_balls</code>=[0,1,2]</p>
+<p><img src="1.2.png" alt="Alt text"></p>
+<p>The distribution of market shares remains the same even with a different initial distribution since it only depends on the eigenvector of the reinforcement matrix.</p>
+<ul>
+<li><strong>Sub-case 1.3:</strong> Deviation from conditions of <code>Theorem 2.3 </code>
+with equal initial allocation</li>
+</ul>
+<p><strong>Negative reinforcement in [-1,0]</strong> for diagonal elements only to avoid negative market shares
+<img src="deviation theorem2.2.png" alt="Alt text"></p>
+<p>reinforcement_matrix:</p>
+<pre><code>[-1, 13, 0.3],
+[13, 0, 0.11],
+[0.3, 0.11, -1]
+</code></pre>
+<p>eigenvector :</p>
+<pre><code>[0.48318155 0.50200789 0.01481056]
+</code></pre>
+<p><strong>Non-integer reinforcement:</strong></p>
+<p>The type with smallest  fraction (type 2) gets slower reinforcements
+reinforcement_matrix:</p>
+<pre><code>[1, 1, 0.3],
+[1, 1, 0.11],
+[0.3, 0.11,0.0991]
+</code></pre>
+<p>eigenvector :</p>
+<pre><code>[0.45656633 0.44766131 0.09577235]
+</code></pre>
+<p><img src="devi2.3.png" alt="Alt text">
+Still matches eigenvector</p>
+<p><strong>Negative reinforcement</strong>
+reinforcement_matrix:</p>
+<pre><code>[-10, 13, 0.3],
+[13, 0, 0.11],
+[0.3, 0.11, -4]
+</code></pre>
+<p>eigenvector :</p>
+<pre><code>[0.40141493 0.58430463 0.01428044]
+</code></pre>
+<p><img src="devi_neg.png" alt="Alt text"></p>
+<p><strong>Does not match theorem results</strong></p>
+<br />
+<h4 id="case-2-distribution-of-xn-depends-on-the-initial-allocation-identity-reinforcement"><strong>Case 2 :Distribution of X_n depends on the initial allocation:  Identity reinforcement</strong></h4>
+<ul>
+<li>Sub-case 2.1: Equal initial allocation,identity reinforcement</li>
+</ul>
+<p>n=3</p>
+<p><img src="2.1 id.png" alt="Alt text"></p>
+<p><img src="dist_3.png" alt="Alt text"></p>
+<p>n=20
+<img src="pie_20.png" alt="Alt text">
+<img src="dist_10.png" alt="Alt text"></p>
+<ul>
+<li>Sub-case 2.2: different initial allocation
+init_balls=[7,3,1]
+<img src="output7.png" alt="Alt text">
+<img src="dist_7png.png" alt="Alt text"></li>
+</ul>
+<p>init_balls =[100,10,1]
+<img src="Figure_1011.png" alt="Alt text">
+<img src="Figure_101.png" alt="Alt text"></p>
+<p>multivariable beta distribution ??</p>
+<ul>
+<li>Sub-case 2.3: Scaled identity reinforcement</li>
+</ul>
+<p>In this sub-case, all urns start with an equal number of balls, and the reinforcement matrix is the identity matrix scaled by a factor lambda.</p>
+<p>lambda=5
+n=20
+<img src="scaled id.png" alt="Alt text"></p>
+<p>same as unscaled identity</p>
+<h4 id="sp500"><strong>S&amp;P500</strong></h4>
+<p><img src="Screen Shot 2023-03-09 at 2.47.53 AM.png" alt="Alt text"></p>
+<p><img src="sp500_power.png" alt="Alt text"></p>
+<h4 id="barabasi"><strong>Barabasi</strong></h4>
+<p>n=3
+reinforcement_type:</p>
+<pre><code>{0:3,1:3,2:3}
+</code></pre>
+<p><img src="Screen Shot 2023-03-09 at 2.06.37 AM.png" alt="Alt text"></p>
+<p>reinforcement_matrix:</p>
+<pre><code>[1, 0, 0],
+[2, 3, 1],
+[5, 3, 9]
+</code></pre>
+<p>reinforcement_type:</p>
+<pre><code> {0:[4],1:[5],2:[7]}
+</code></pre>
+<p>With equal initial allocation</p>
+<p><img src="Figure_1.png" alt="Alt text">
+<img src="example_1_plot barbasi.png" alt="Alt text"></p>
+
+</body>
+</html>
